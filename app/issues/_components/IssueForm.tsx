@@ -31,7 +31,6 @@ const IssueForm = ({ issue }: Props) => {
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    console.log(issue);
     return (
         <div className={"max-w-xl"}>
             {error && <Callout.Root color={"red"} className={"mb-1"}>

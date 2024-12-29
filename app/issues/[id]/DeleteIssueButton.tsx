@@ -5,15 +5,20 @@ import axios from "axios";
 import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {toast} from "react-toastify";
+import Spinner from "@/app/components/Spinner";
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     const router = useRouter();
     const [error, setError] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     return (
         <AlertDialog.Root>
             <AlertDialog.Trigger>
-                <Button color={"red"}>Delete Issue</Button>
+                <Button disabled={isDeleting} color={"red"}>
+                    { isDeleting ? "Deleting issue ..." : "Delete Issue" }
+                    { isDeleting && <Spinner /> }
+                </Button>
             </AlertDialog.Trigger>
             <AlertDialog.Content>
                 <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
@@ -27,6 +32,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
                     <AlertDialog.Action>
                         <Button color={"red"} onClick={async () => {
                             try {
+                                setIsDeleting(true);
                                 await axios.delete('/api/issues/' + issueId);
                                 setError(false);
                                 router.push('/issues');
@@ -35,6 +41,9 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
                             catch (error) {
                                 setError(true);
                                 toast('Some error has occurred.', { type: 'error' })
+                            }
+                            finally {
+                                setIsDeleting(false);
                             }
                         }}>
                             Delete Issue
