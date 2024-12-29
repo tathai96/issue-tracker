@@ -4,6 +4,7 @@ import {Box, Flex, Grid} from "@radix-ui/themes";
 import EditIssueButton from "@/app/issues/[id]/EditIssueButton";
 import IssueDetails from "@/app/issues/IssueDetails";
 import DeleteIssueButton from "@/app/issues/[id]/DeleteIssueButton";
+import {ToastContainer} from "react-toastify";
 
 interface Props{
     params: {
@@ -30,7 +31,9 @@ const IssueDetailPage = async ({ params }: Props) => {
                     <DeleteIssueButton issueId={issue.id} />
                 </Flex>
             </Box>
+            <ToastContainer position={"bottom-right"} />
         </Grid>
+
     )
 }
 
