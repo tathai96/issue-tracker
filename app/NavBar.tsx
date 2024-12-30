@@ -6,6 +6,8 @@ import {usePathname} from "next/navigation";
 import classnames from 'classnames'
 import {Avatar, Box, Container, DropdownMenu, Flex, Text} from "@radix-ui/themes";
 import {useSession} from "next-auth/react";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const NavBar = () => {
     const currentPath = usePathname();
@@ -14,7 +16,6 @@ const NavBar = () => {
         {label: "Dashboard", href: "/"},
         {label: "Issues", href: "/issues"},
     ]
-    console.log(session);
     return (
         <nav className={"border-b mb-5 px-5 py-3"}>
             <Container>
@@ -38,6 +39,7 @@ const NavBar = () => {
                         </ul>
                     </Flex>
                     <Box>
+                        { status === "loading" && <Skeleton width={"3rem"} /> }
                         { status === "authenticated" &&
                             <DropdownMenu.Root>
                                 <DropdownMenu.Trigger>

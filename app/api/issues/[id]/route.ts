@@ -1,10 +1,17 @@
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/prisma/client";
 import {issuesSchema} from "@/app/validationSchemas";
-import delay from "delay";
+import {getServerSession} from "next-auth";
+import authOptions from "@/app/auth/authOptions";
 
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+
+    const session  = getServerSession(authOptions);
+
+    if(!session) {
+        return NextResponse.json({ error: "Session not found" }, { status: 401 });
+    }
 
     const body = await request.json();
 
